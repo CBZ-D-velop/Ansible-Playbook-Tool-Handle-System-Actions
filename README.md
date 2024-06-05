@@ -88,6 +88,7 @@ Here you can put your change to keep a trace of your work and decisions.
 ### 2024-06-05: First Init
 
 * First init of this playbook with the bootstrap_playbook playbook by Lord Robin Crombez
+* System / Normal users handled, with or without password
 
 ## Authors
 
