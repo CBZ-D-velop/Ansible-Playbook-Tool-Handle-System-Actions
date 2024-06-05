@@ -1,0 +1,52 @@
+---
+- name: "tool.handle_system_actions"
+  hosts: "{{ tower_env | default([]) }}"
+  gather_facts: true
+  become: true
+  become_method: sudo
+  become_user: root
+
+  tasks:
+
+    - name: "Handle groups"
+      when: tower_handle_system_actions__groups | default(false)
+      loop: "{{ tower_handle_system_actions__groups }}"
+      loop_control:
+        loop_var: group
+      ansible.builtin.group:
+        name: "{{ group.name }}"
+        gid: "{{ group.gid }}"
+        state: present
+
+    - name: "Handle users"
+      when: tower_handle_system_actions__users | default(false)
+      block:
+        - name: "Handle users, with password"
+          loop: "{{ tower_handle_system_actions__users }}"
+          loop_control:
+            loop_var: user
+          when: user.password | default(false)
+          ansible.builtin.user:
+            name: "{{ user.name }}"
+            uid: "{{ user.uid }}"
+            shell: "{{ user.shell | default('/usr/bin/false') }}"
+            system: "{{ user.system | default(false) }}"
+            state: present
+            append: "{{ user.append | default(false) }}"
+            groups : "{{ user.groups | default('') }}"
+            password: "{{ user.password | password_hash('sha512') }}"
+            update_password: always
+
+        - name: "Handle users, without password"
+          loop: "{{ tower_handle_system_actions__users }}"
+          loop_control:
+            loop_var: user
+          when: not (user.password | default(false))
+          ansible.builtin.user:
+            name: "{{ user.name }}"
+            uid: "{{ user.uid }}"
+            shell: "{{ user.shell | default('/usr/bin/false') }}"
+            system: "{{ user.system | default(false) }}"
+            state: present
+            append: "{{ user.append | default(false) }}"
+            groups : "{{ user.groups | default('') }}"
