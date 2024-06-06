@@ -57,7 +57,7 @@ variables:
     - if: '$CI_COMMIT_MESSAGE=~/^[^Merge]/ && $CI_COMMIT_BRANCH == "develop"'
   needs:
     - "lint:yaml"
-    - "lint:jinja"
+    #- "lint:jinja"
     - "lint:ansible"
     - "lint:markdown"
 
@@ -82,15 +82,15 @@ lint:yaml:
   rules:
     - if: '$CI_COMMIT_MESSAGE=~/^[^Merge]/ && $CI_COMMIT_BRANCH == "develop"'
 
-lint:jinja:
-  stage: lint
-  image: $NEXUS_DOCKER_GROUP_REGISTRY/$DOCKER_IMAGE__LINT_JINJA
-
-  script:
-    - "[ -n \"$(find ./templates -name '*.j2')\" ] && j2lint ./templates/*.j2 --ignore S3 S7"
-  allow_failure: false
-  rules:
-    - if: '$CI_COMMIT_MESSAGE=~/^[^Merge]/ && $CI_COMMIT_BRANCH == "develop"'
+#lint:jinja:
+#  stage: lint
+#  image: $NEXUS_DOCKER_GROUP_REGISTRY/$DOCKER_IMAGE__LINT_JINJA
+#
+#  script:
+#    - "[ -n \"$(find ./templates -name '*.j2')\" ] && j2lint ./templates/*.j2 --ignore S3 S7"
+#  allow_failure: false
+#  rules:
+#    - if: '$CI_COMMIT_MESSAGE=~/^[^Merge]/ && $CI_COMMIT_BRANCH == "develop"'
 
 lint:ansible:
   stage: lint

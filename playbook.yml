@@ -1,9 +1,9 @@
 ---
-- name: "tool.handle_system_actions"
+- name: "Handle system actions"
   hosts: "{{ tower_env | default([]) }}"
   gather_facts: true
   become: true
-  become_method: sudo
+  become_method: ansible.builtin.sudo
   become_user: root
 
   tasks:
@@ -33,7 +33,7 @@
             system: "{{ user.system | default(false) }}"
             state: present
             append: "{{ user.append | default(false) }}"
-            groups : "{{ user.groups | default('') }}"
+            groups: "{{ user.groups | default('') }}"
             password: "{{ user.password | password_hash('sha512') }}"
             update_password: always
 
@@ -49,4 +49,4 @@
             system: "{{ user.system | default(false) }}"
             state: present
             append: "{{ user.append | default(false) }}"
-            groups : "{{ user.groups | default('') }}"
+            groups: "{{ user.groups | default('') }}"

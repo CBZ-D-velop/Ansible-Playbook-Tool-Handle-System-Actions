@@ -9,7 +9,7 @@ driver:
 
 platforms:
   - name: "molecule-cicd-debian-12-instance-1-handle-system-actions"
-    image: "${NEXUS_REPOS_DOCKER_REGISTRY}/${DOCKER_IMAGE__ANSIBLETEST_DEBIAN_12}"
+    image: "${NEXUS_DOCKER_GROUP_REGISTRY}/${DOCKER_IMAGE__ANSIBLETEST_DEBIAN_12}"
     hostname: "molecule-cicd-debian-12-instance-1-handle-system-actions"
     #published_ports:
     #  - "0.0.0.0:8181:8181/tcp"
