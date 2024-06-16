@@ -2,15 +2,10 @@
 
 tower_handle_system_actions__groups:
   - name: "testgroup"
-    gid: 1000
   - name: "test2"
-    gid: 1001
   - name: "test3"
-    gid: 1002
   - name: "test4"
-    gid: 1003
   - name: "test5"
-    gid: 1004
   - name: "testgroupsystem"
     gid: 1006
 
@@ -18,15 +13,11 @@ tower_handle_system_actions__groups:
 # If false, user will only be added to the groups specified in groups, removing them from all other groups.
 tower_handle_system_actions__users:
   - name: "test"
-    uid: 10000
-    gid: 10000
     #shell: "/bin/bash"
     system: false
     append: false
     groups: "testgroup"
   - name: "testsystem"
-    uid: 10001
-    gid: 10001
     #shell: "/usr/bin/false"
     system: true
     append: false
