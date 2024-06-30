@@ -15,7 +15,6 @@
         loop_var: group
       ansible.builtin.group:
         name: "{{ group.name }}"
-        gid: "{{ group.gid }}"
         state: present
 
     - name: "Handle users"
@@ -28,7 +27,6 @@
           when: user.password | default(false)
           ansible.builtin.user:
             name: "{{ user.name }}"
-            uid: "{{ user.uid }}"
             shell: "{{ user.shell | default('/usr/bin/false') }}"
             system: "{{ user.system | default(false) }}"
             state: present
@@ -36,6 +34,7 @@
             groups: "{{ user.groups | default('') }}"
             password: "{{ user.password | password_hash('sha512') }}"
             update_password: always
+            create_home: "{{ user.create_home | default(true) }}"
 
         - name: "Handle users, without password"
           loop: "{{ tower_handle_system_actions__users }}"
@@ -44,9 +43,9 @@
           when: not (user.password | default(false))
           ansible.builtin.user:
             name: "{{ user.name }}"
-            uid: "{{ user.uid }}"
             shell: "{{ user.shell | default('/usr/bin/false') }}"
             system: "{{ user.system | default(false) }}"
             state: present
             append: "{{ user.append | default(false) }}"
             groups: "{{ user.groups | default('') }}"
+            create_home: "{{ user.create_home | default(true) }}"
